@@ -1,0 +1,33 @@
+#tablaJava thead{
+    background-color: #b02c12;
+    color: #ffffff;
+}
+
+#tablaJava tbody{
+    background-color: orange;
+}
+
+#tablaNet thead{
+    background-color: #4e4eb0;
+    color: #ffffff;
+}
+
+#tablaNet tbody{
+    background-color: #00dbde;
+}
+
+.userName{
+    cursor: pointer;
+}
+
+.userName:hover{
+    color: #FFFFFF;
+    background-color: #00bfc2;
+}
+#final{
+    background: #d8d0d0;
+    border-top: 2px solid #212529;
+}
+img{
+    width: 50%;
+}

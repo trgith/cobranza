@@ -1,0 +1,21 @@
+.registro-card{
+    width: 700px;
+}
+
+#cardRegistro{
+    margin: 0 60px;
+}
+
+/*.table th{
+    color: #fff;
+    background-color: #FF4500;
+    border-color: #454d55;
+}
+
+.table tbody{
+    background-color: #F0E68C;
+}*/
+
+.editBox{
+    max-width: 500px;
+}

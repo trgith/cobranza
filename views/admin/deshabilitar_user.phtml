@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Usuarios activados en el sistema</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-9 col-md-offset-3 cuadro-busqueda">
+            <form method="post" id="formBuscar">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="activo" name="activo" placeholder="Buscar por nombre o por E-mail" value="S" style="display: none">
+                    <input type="text" class="form-control" id="termino" name="termino" placeholder="Buscar por nombre o por E-mail" required>
+                    <div class="input-group-prepend">
+                        <button class="input-group-text" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-warning" role="alert" style="display: none; margin: 20px 0;" id="respuestaBusqueda">
+                ¡No se  encontraron resultados!
+            </div>
+            <div class="card tablas" id="tablaResultado" style="display: none">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    Usuario Encontrado: <span id="etiquetaUsuario"></span>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>E-mail</th>
+                            <th>Generación</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbodyUsuario">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (isset($this->usuarios)){ ?>
+        <div class="row">
+            <div class="col">
+                <div class="card tablas">
+                    <div class="card-header">
+                        <i class="fas fa-user-check"></i>
+                        Usuarios activos
+                    </div>
+                    <div class="card-body">
+                        <form method="post" onclick="return false;">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>E-mail</th>
+                                        <th>Generación</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $count =0; foreach ($this->usuarios as $clave => $valor): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $valor['nombre']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $valor['email_usuario']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $valor['generacion']; ?>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btnDesactivar" id="<?php echo $valor['id_usuario']; ?>"><i class="fas fa-times"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+    var opcion = "accesoUsuario";
+    var item = "deshabilitar_usuario";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

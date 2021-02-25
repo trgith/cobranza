@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Cuentas bancarias</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card registro-card w-75">
+                <div class="card-body" id="cardRegistro">
+                    <h5 class="card-title">A continuación registre una cuenta bancaria</h5>
+                    <form id="formCuentaBancaria" method="post">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="nombre">
+                                    <span class="requerido">*</span>Nombre:
+                                </label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="TR network SA de CV" required>
+                            </div>
+                            <div class="col">
+                                <label for="banco">
+                                    <span class="requerido">*</span>Banco:
+                                </label>
+                                <input type="text" class="form-control" id="banco" name="banco" placeholder="Scotiabanck Inverlat" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="cuenta">
+                                    <span class="requerido">*</span>Cuenta:
+                                </label>
+                                <input type="text" class="form-control" id="cuenta" name="cuenta" placeholder="04753466356" required>
+                            </div>
+                            <div class="col">
+                                <label for="clave">
+                                    <span class="requerido">*</span>Clave:
+                                </label>
+                                <input type="text" class="form-control" id="clave" name="clave" placeholder="9456734543421" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (isset($this->cuentasBancarias)){ ?>
+        <div class="row" id="cuentasBancarias">
+            <div class="col">
+                <div class="card tablas">
+                    <div class="card-header">
+                        <i class="fas fa-university"></i>
+                        Cuentas Bancarias
+                    </div>
+                    <div class="card-body">
+                        <form id="formCorridaPagos" action="" onclick="return false;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Banco</th>
+                                        <th>Cuenta</th>
+                                        <th>Clabe</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($this->cuentasBancarias as $clave => $valor): ?>
+                                        <tr id="<?php echo "edit_".$valor['id_cuenta_pago']; ?>">
+                                            <td style="display: none">
+                                                <input type="text" class="form-control" id="id_cuenta_pago" name="id_cuenta_pago" value="<?php echo $valor['id_cuenta_pago']; ?>" >
+                                            </td>
+                                            <td>
+                                                <span class="text"><?php echo $valor['nombre']; ?></span>
+                                                <input type="text" class="form-control editBox" id="nombre" name="nombre" value="<?php echo $valor['nombre']; ?>" style="display: none">
+                                            </td>
+                                            <td>
+                                                <span class="text"><?php echo $valor['banco']; ?></span>
+                                                <input type="text" class="form-control editBox" id="banco" name="banco" value="<?php echo $valor['banco']; ?>" style="display: none">
+                                            </td>
+                                            <td>
+                                                <span class="text"><?php echo $valor['cuenta']; ?></span>
+                                                <input type="text" class="form-control editBox" id="cuenta" name="cuenta" value="<?php echo $valor['cuenta']; ?>"  style="display: none">
+                                            </td>
+                                            <td>
+                                                <span class="text"><?php echo $valor['clabe']; ?></span>
+                                                <input type="text" class="form-control editBox" id="clabe" name="clabe" value="<?php echo $valor['clabe']; ?>"  style="display: none">
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btnEdit" id="<?php echo $valor['id_cuenta_pago']; ?>"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-success btnSave" id="<?php echo $valor['id_cuenta_pago']; ?>" style="display: none"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-danger btnDelet" id="<?php echo $valor['id_cuenta_pago']; ?>" style="display: none"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="btn btn-dark btnCancel" id="<?php echo $valor['id_cuenta_pago']; ?>" style="display: none"><i class="fas fa-times"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+    var opcion = "cuentaBancaria";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

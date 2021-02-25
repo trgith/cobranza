@@ -1,0 +1,17 @@
+/*.table th{
+    color: #fff;
+    background-color: #54904c;
+    border-color: #454d55;
+}
+
+.table tbody{
+    background-color: #a7ad9a;
+}*/
+
+#etiquetaUsuario{
+    font-weight: bold;
+}
+
+.cuadro-busqueda{
+    margin-left: 20px;
+}

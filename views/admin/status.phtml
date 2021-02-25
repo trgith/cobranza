@@ -1,0 +1,130 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: desarrollo2
+ * Date: 01/11/19
+ * Time: 8:46
+ */
+?>
+<div class="container-fluid" style="margin-bottom: 80px">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Estatus de usuarios</h1>
+            <hr/>
+        </div>
+    </div>
+    <?php if (isset($this->usuarios)){ ?>
+    <div class="row" id="usuarios">
+        <div class="col">
+            <div class="card tablas">
+                <div class="card-header">
+                    <i class="fas fa-user"></i> <span>Usuarios encontrados</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="usuariosTable">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Fecha de pago</th>
+                                <th>Generación</th>
+                                <th>Tecnologia</th>
+                                <th>Estado de pago</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablaStatus">
+                            <?php $count =0; foreach ($this->usuarios as $clave => $valor): ?>
+                                <tr>
+                                    <td><?php echo $valor['nombre'];?></td>
+                                    <td><?php echo $valor['email_usuario'];?></td>
+                                    <td><?php echo $valor['fecha_pago'];?></td>
+                                    <td><?php echo $valor['generacion'];?></td>
+                                    <td><?php echo $valor['tecnologia'];?></td>
+                                    <td class="<?php echo 'status_'.$valor['status'];?>"><?php echo $valor['status'];?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-info" style="float: right" id="generarReporte" data-toggle="modal" data-target="#listadoModal">Generar Listado</button>
+        </div>
+    </div>
+    <?php } else {?>
+    <div class="row" id="alerta_pagos_pendientes">
+        <div class="col">
+            <div class="alert alert-warning-alt alert-dismissable">
+                <i class="fa fa-info-circle"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong>¡Actualmente no hay pagos pendientes!</strong>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    <div class="row" id="pagos" style="display: none">
+        <div class="col">
+            <div class="card w-75">
+                <div class="card-header">
+                    <i class="fas fa-money-bill-alt"></i> <span>Pagos del usuario</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Fecha</th>
+                                    <th>Cantidad</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaPagos">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Rgenerar listado de pagos -->
+<div class="modal fade" id="listadoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Generar listado de pagos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="listadoForm">
+                    <div class="form-group">
+                        <labale for="fechaListado"><span class="requerido">*</span> Fecha:</labale>
+                        <input type="text" id="fechaListado" class="form-control fecha" placeholder="Ingrese una fecha" required>
+                    </div>
+                    <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <input type="submit" class="btn btn-primary" id="regestionar" id_info_pago="" value="Generar">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var opcion = "status";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+    $(function () {
+        $('#fechaListado').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>

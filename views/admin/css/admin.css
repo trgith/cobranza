@@ -1,0 +1,22 @@
+.titulo{
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.registro-card{
+	margin: 0 auto;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.125);
+}
+
+.registro-card>.card-body{
+	margin: 0 80px;
+}
+
+.pull-right{
+	float: right!important;
+}
+
+.requerido{
+	color: #F00;
+	font-size: 20px;
+}

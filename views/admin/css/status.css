@@ -1,0 +1,41 @@
+.row{
+    padding-left: 40px;
+}
+.card{
+    margin: 40px auto;
+}
+.status_pagando, .status_pendiente{
+    color: white;
+    background-color: orange;
+}
+.status_completado, .status_acreditado{
+    color: white;
+    background-color: #87e163;
+}
+.status_cancelado, .status_aplazado{
+    color: white;
+    background-color: #ff4a4f;
+}
+.status_parcial{
+    color: white;
+    background-color: lightgray;
+}
+.status_proyecto{
+    color: white;
+    background-color: #DAA520;
+}
+.titulo{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 3vw;
+}
+.cuadro-busqueda{
+    margin: auto;
+    width: 80%;
+}
+
+.alert-warning-alt {
+    border-color: #bbb81b;
+    background: #bfbe12;
+    color: #1d1d1d;
+}

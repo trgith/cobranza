@@ -1,0 +1,381 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Buscar Usuario</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="input-group flex-nowrap" style="width: 60%; margin: auto;">
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" id="nombre" name="noombre" required>
+                <div class="input-group-prepend">
+                    <!--<span class="input-group-text" id="addon-wrapping"><i class="fas fa-user"></i></span>-->
+                    <button style="width: 60px" id="buscar" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="usuariosContent" style="display: none">
+        <div class="col">
+            <div class="card tablas" id="java" style="display: none">
+                <div class="card-header">
+                    <!--<i class="fas fa-user"></i>
+                    Usuarios de la tecnologia <strong>JAVA</strong>-->
+                    <img src="<?php echo BASE_URL.'views/'.$this->_controller.'/img/java2.png' ?>" class="rounded tecnologia" alt="JAVA">
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="tablaJava">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>E-mail</th>
+                                <th>Generación</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bodyTablaJava">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card tablas" id="net" style="display: none">
+                <div class="card-header">
+                    <!--<i class="fas fa-user"></i>
+                    Usuarios de la tecnologia <strong id="titleCard" class="remarcado">.NET</strong>-->
+                    <img src="<?php echo BASE_URL.'views/'.$this->_controller.'/img/net2.png'; ?>" class="rounded tecnologia" alt=".NET">
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="tablaNet">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>E-mail</th>
+                                <th>Generación</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bodyTablaNet">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="infoConsultora" style="display: none">
+        <div class="col">
+            <div class="card tablas">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    Información de las consultoras <span id="titleCardUsuario" class="remarcado"></span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Consultora</th>
+                                <th>Cliente</th>
+                                <th>Fecha ingreso</th>
+                                <th>Periodo pago</th>
+                                <th>Esquema</th>
+                                <th>Monto a percibir</th>
+                                <th>Monto pendiente</th>
+                                <th>Monto Total</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablaConsultora">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="alerta_corrida" style="display: none;">
+        <div class="col">
+            <div class="alert alert-warning-alt alert-dismissable">
+                <i class="fa fa-info-circle"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong>Sin corridas!</strong> El usuario no tiene corridas registradas
+            </div>
+        </div>
+    </div>
+    <div class="row" id="infoCorrida" style="display: none">
+        <div class="col">
+            <div class="card tablas">
+                <div class="card-header">
+                    <i class="fas fa-money-bill-alt"></i>
+                    Información de la corrida de pagos <span id="titleCardUsuario" class="remarcado"></span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>No. pago</th>
+                                <th>Fecha </th>
+                                <th>Cantidad</th>
+                                <th>Status</th>
+                                <th>Forma de pago</th>
+                                <th>Porcentaje</th>
+                                <th>Descuento</th>
+                                <th>Cantidad pagada</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablaCorrida">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-md-auto">
+                            <button class="btn btn-primary" id="btnAgregarPago" data-toggle="modal" data-target="#agregarPago" id_info_pago="">Agregar pago</button>
+                            <!--<button class="btn btn-danger" id="btnModificarAuto" data-toggle="modal" data-target="#updateAutomatic">Generar nueva cantidad</button>-->
+                            <button class="btn btn-warning" id="btnGuardarCambio" style="display: none">Guardar cambios</button>
+                            <button class="btn btn-success" id="btnGuardarPago" style="display: none" solicitud="nuevo">Guardar pago</button>
+                            <button class="btn btn-warning" id="btnGenerarReciboProyecto" style="display: none" data-toggle="modal" data-target="#modalReporteProyecto">Generar Recibo</button>
+                            <button class="btn btn-info" id="btnRegestion" data-toggle="modal" data-target="#regestionModal" id_info_pago="">Regestionar Usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img id="logo_tr" src="<?php echo BASE_URL.'views/img/trnetwork.png'; ?>" style="width: 80%;display: none;" alt="...">
+</div>
+<div class="modal fade" id="agregarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar un nuevo campo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <labale for="fecha"><span class="requerido">*</span> Fecha:</labale>
+                    <input type="text" id="fecha" class="form-control fecha" placeholder="Ingrese una fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <labale for="cantidad"><span class="requerido">*</span> Cantidad:</labale>
+                    <input type="text" id="cantidad" class="form-control cantidad" placeholder="Ingrese una cantidad" required>
+                </div>
+
+                <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="agregarModalBtn">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateAutomatic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Calcular las corridas pendientes automaticamente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <labale for="cantidad"><span class="requerido">*</span> Nuevo monto a percibir:</labale>
+                    <input type="text" id="monto_nuevo" class="form-control cantidad" placeholder="Ingrese una cantidad" required>
+                </div>
+
+                <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="modificarCorridas">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modificado -->
+<div class="modal fade" id="parcial" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Distribución de pago parcial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>¿Como desea distribuir el pago?</span>
+                <form id="formParcial">
+                    <div class="radio">
+                        <label><input type="radio" name="valorParcial" value="siguiente" checked>Sumar el resto al siguiente pago</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="valorParcial" value="distribuido">Distribuirlo en los pagos pendientes</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="valorParcial" value="nuevo">Generar un pago nuevo</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="generarParcial">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="aplazado" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Distribución de pago aplazado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>¿Como desea distribuir el pago?</span>
+                <form id="formParcial">
+                    <div class="radio">
+                        <label><input type="radio" name="valorAplazado" value="siguiente" checked>Sumar el resto al siguiente pago</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="valorAplazado" value="distribuido">Distribuirlo en los pagos pendientes</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="valorAplazado" value="nuevo">Generar un pago nuevo</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="generarAplazado">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Documento corrida-->
+<div class="modal fade bd-example-modal-sm" id="modalReporte" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Reporte de pago</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-file-alt" style="color: #003eff; font-size: 8em;"></i>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="<?php ROOT.$this->_controller.'/verReporteCorrida&i';?>" type="button" class="btn btn-outline-primary" id="verReporte" id_info="" target="_blank">Ver Reporte</a>-->
+                <button type="button" class="btn btn-outline-primary" id="verReporte" id_info="" id_pago="">Ver Reporte</button>
+                <button type="button" class="btn btn-outline-secondary" id="enviarReporte" id_pago="" id_info="">Enviar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Reporte pendiente proyecto-->
+<div class="modal fade bd-example-modal-sm" id="modalReporteProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Reporte de pendiente proyecto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-file-alt" style="color: #003eff; font-size: 8em;"></i>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="<?php ROOT.$this->_controller.'/verReporteCorrida&i';?>" type="button" class="btn btn-outline-primary" id="verReporte" id_info="" target="_blank">Ver Reporte</a>-->
+                <button type="button" class="btn btn-outline-primary" id="verReporteProyecto" id_info="" id_pago="">Ver Reporte</button>
+                <button type="button" class="btn btn-outline-secondary" id="enviarReporteProyecto" id_pago="" id_info="">Enviar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Regestion -->
+<div class="modal fade" id="regestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Generar Regestión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="regestionForm">
+                <div class="form-group">
+                    <labale for="fechaRegestion"><span class="requerido">*</span> Fecha:</labale>
+                    <input type="text" id="fechaRegestion" class="form-control fecha" placeholder="Ingrese una fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <labale for="cantidad_regestion"><span class="requerido">*</span> Nuevo monto a percibir:</labale>
+                    <input type="text" id="cantidad_regestion" class="form-control cantidad" placeholder="Ingrese una cantidad" required>
+                </div>
+
+                <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <input type="submit" class="btn btn-primary" id="regestionar" id_info_pago="" value="Generar">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Documento corrida Regestion -->
+<div class="modal fade bd-example-modal-sm" id="modalReporteRegestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reporte de corrida de pagos (Regestion)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-file-alt" style="color: #003eff; font-size: 8em;"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="verCorridaRegestion" id_info="" id_pago="">Ver Reporte</button>
+                <button type="button" class="btn btn-outline-secondary" id="enviarCorridaRegestion" id_pago="" id_info="">Enviar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var opcion = "busqueda";
+    var files_root = '<?php echo BASE_URL."files/" ?>';
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+    $(function () {
+        $('#fecha').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD'
+        });
+        $('#fechaRegestion').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD'
+        });
+    });
+    $('.cantidad').mask('00,000.00', {reverse: true});
+</script>

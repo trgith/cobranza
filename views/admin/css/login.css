@@ -1,0 +1,30 @@
+/* Estilos Propios*/
+#cabecera{
+    height: 100px;
+    background-color: black!important;
+}
+#logo{
+    width: 160px;
+}
+#dasboardTitle{
+    padding: 50px 0;
+}
+.tablas{
+    margin: 70px 0;
+}
+#continer-ingreso{
+    background-image: url("../img/patron.jpeg");
+    position: absolute;
+    height: 100%;
+}
+#card-login{
+    margin-top: 200px;
+}
+#userPhoto{
+    width: 80px;
+    height: 80px;
+    border-radius:100px;
+    margin-left:2.5%;
+    margin-top:3%;
+}
+

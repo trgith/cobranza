@@ -1,0 +1,325 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Corridas de pago</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card registro-card">
+                <div class="card-body">
+                    <h5 class="card-title">A continuación genere la corrida de pago</h5>
+                    <form id="formCorrida">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="usuario">
+                                    <span class="requerido">*</span>Usuario: <span style="font-size: 10px">(puede buscar por nombre o email, presionando enter)</span>
+                                </label>
+                                <input type="text" class="form-control" id="usuarioInput" name="nombre_usuario" placeholder="Buscar cliente" required>
+                                <select class="form-control" id="usuarioSelect" name="usuario" style="display: none">
+                                </select>
+                                    <!--<option value>Seleccione una opción</option>-->
+                                    <!--<?php //foreach ($this->usuarios as $clave => $valor): if ($valor['id_rol_usuario'] != 1 && $valor['activo'] === 'S') { ?>
+                                        <option value="<?php //echo $valor['id_usuario'] ?>"><?php// echo $valor['nombre']; ?></option>
+                                    <?php //} endforeach; ?>-->
+                            </div>
+                            <div class="col">
+                                <label for="consultora">
+                                    <span class="requerido">*</span>Consultora:
+                                </label>
+                                <input type="text" class="form-control" id="consultora" name="consultora"
+                                       placeholder="Consultoria">
+                            </div>
+                            <div class="col">
+                                <label for="cliente">
+                                    <span class="requerido">*</span>Cliente:
+                                </label>
+                                <input type="text" class="form-control" id="cliente" name="cliente"
+                                       placeholder="Cliente">
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class='col date' id='datetimepickerMod'>
+                                <label for="datetimepicker1">
+                                    <span class="requerido">*</span>Fecha de ingreso:
+                                </label>
+                                <input type="text" class="form-control" id="datetimepicker1" name="fechaIngreso"
+                                       placeholder="yyy-mm-dd">
+                            </div>
+                            <div class="col">
+                                <label for="periodo">
+                                    <span class="requerido">*</span>Periodo de pago:
+                                </label>
+                                <select class="form-control" id="periodo" name="periodo" required>
+                                    <option value>Seleccione una opción</option>
+                                    <option value="Quincenal">Quincenal</option>
+                                    <option value="Mensual">Mensual</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="esquema">
+                                    <span class="requerido">*</span>Esquema:
+                                </label>
+                                <select class="form-control" id="esquema" name="esquema" required>
+                                    <option value>Seleccione una opción</option>
+                                    <option value="Nomina">Nomina</option>
+                                    <option value="Honorarios">Honorarios</option>
+                                    <option value="Mixto">Mixto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-4">
+                                <label for="montoAPercibir">
+                                    <span class="requerido">*</span>Monto a percibir:
+                                </label>
+                                <input type="text" class="form-control cantidad" id="montoAPercibir"
+                                       name="montoAPercibir" placeholder="30,000">
+                            </div>
+                            <div class="col-4">
+                                <label for="montoAPagar">
+                                    <span class="requerido">*</span>Monto a pagar:
+                                </label>
+                                <input type="text" class="form-control cantidad" id="montoAPagar" name="montoAPagar"
+                                       placeholder="Monto a pagar">
+                            </div>
+                            <!--<div class="col">
+                                <label for="Generacion">
+                                    <span class="requerido">*</span>Generación:
+                                </label>
+                                <select class="form-control" id="generacion" name="generacion" required>
+                                    <option value>Seleccione una opción</option>
+                                    <?php foreach ($this->generaciones as $clave => $valor): if ($valor['id_generacion'] != 1) { ?>
+                                        <option value="<?php echo $valor['id_generacion']; ?>"><?php echo $valor['generacion']; ?></option>
+                                    <?php } endforeach; ?>
+                                </select>
+                            </div>-->
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right" id="btnGenerar">Generar corrida</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="alerta_corrida_registrada" style="display: none">
+        <div class="col">
+            <div class="alert alert-success-alt alert-dismissable">
+                <i class="fa fa-info-circle"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong>¡Corrida registrada!</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="alerta_corrida_existente" style="display: none">
+        <div class="col">
+            <div class="alert alert-success-alt alert-dismissable">
+                <i class="fa fa-info-circle"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong>¡Aviso!</strong> El usuario tiene corridas registradas
+            </div>
+        </div>
+    </div>
+    <div class="row" style="display: none" id="corridaGenerada">
+        <div class="col">
+            <div class="card tablas">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Corrida generada
+                </div>
+                <div class="card-body">
+                    <form id="formCorridaPagos" action="">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th style="max-width: 70px;">No. pago</th>
+                                <th>Fecha</th>
+                                <th>Cantidad Original</th>
+                                <th>Status</th>
+                                <th>Forma de pago</th>
+                                <th>Porcentaje</th>
+                                <th>Descuento</th>
+                                <th>Cantidad pagada</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablaCorrida">
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+
+                        <div class="col-md-auto">
+                            <button class="btn btn-success" id="btnAgregarPago" data-toggle="modal" data-target="#agregarPago" id_info_pago="">Agregar pago extra</button>
+                        </div>
+                        <!--<div class="col-md-auto">
+                            <button class="btn btn-warning" id="btnModificarAutomaticamente" data-toggle="modal" data-target="#updateAutomatic" >Modificar automaticamente</button>
+                        </div>-->
+                        <div class="col-md-auto">
+                            <button class="btn btn-primary btnEnviar" id="btnEnviar"  data-toggle="modal" data-target="#modalReporte">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar un nuevo pago</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <labale for="fecha"><span class="requerido">*</span> Fecha:</labale>
+                    <input type="text" id="fecha" class="form-control fecha" placeholder="Ingrese una fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <labale for="cantidad"><span class="requerido">*</span> Cantidad:</labale>
+                    <input type="text" id="cantidad" class="form-control cantidad" placeholder="Ingrese una cantidad" required>
+                </div>
+
+                <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="agregarModalBtn">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateAutomatic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Calcular las corridas pendientes automaticamente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <labale for="cantidad"><span class="requerido">*</span> Nuevo monto a percibir:</labale>
+                    <input type="text" id="monto_nuevo" class="form-control cantidad" placeholder="Ingrese una cantidad" required>
+                </div>
+
+                <div id="mensaje-modal"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="modificarCorridas">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Documento corrida-->
+<div class="modal fade bd-example-modal-sm" id="modalReporte" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Reporte de corrida</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-file-alt" style="color: #003eff; font-size: 8em;"></i>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="<?php ROOT.$this->_controller.'/verReporteCorrida&i';?>" type="button" class="btn btn-outline-primary" id="verReporte" id_info="" target="_blank">Ver Reporte</a>-->
+                <button type="button" class="btn btn-outline-primary" id="verReporte" id_info="">Ver Reporte</button>
+                <button type="button" class="btn btn-outline-secondary" id="enviarReporte" id_info="">Enviar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal para pago parcial -->
+<div class="modal fade" id="parcial" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Distribución de pago parcial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>¿Como desea distribuir el pago?</span>
+                <form id="formParcial">
+                    <div class="radio">
+                        <label><input type="radio" name="valorParcial" value="siguiente" checked> Sumar el resto al siguiente pago</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="valorParcial" value="distribuido"> Distribuirlo en los pagos pendientes</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="valorParcial" value="nuevo"> Generar un pago nuevo</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="generarParcial">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal para pago aplazado -->
+<div class="modal fade" id="aplazado" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Distribución de pago aplazado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>¿Como desea distribuir el pago?</span>
+                <form id="formParcial">
+                    <div class="radio">
+                        <label><input type="radio" name="valorAplazado" value="siguiente" checked> Sumar el resto al siguiente pago</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="valorAplazado" value="distribuido"> Distribuirlo en los pagos pendientes</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="valorAplazado" value="nuevo"> Generar un pago nuevo</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="generarAplazado">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var opcion = "corrida";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD'
+        });
+        $('#fecha').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD'
+        });
+    });
+    $('.cantidad').mask('00,000.00', {reverse: true});
+</script>

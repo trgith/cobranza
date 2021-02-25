@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Accesos al sistema</h1>
+            <hr/>
+        </div>
+    </div>
+    <?php if (isset($this->accesos)){ ?>
+        <div class="row">
+            <div class="col">
+                <div class="card tablas">
+                    <div class="card-header">
+                        <i class="fas fa-lock-open"></i>
+                        Tabla de accesos al sistema
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>Fecha y hora</th>
+                                    <th>IP</th>
+                                    <th>Navegador</th>
+                                    <th>Sistema Operativo</th>
+                                    <th>Ubicación</th>
+                                    <th>Usuario</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $count =0; foreach ($this->accesos as $clave => $valor): ?>
+                                    <tr>
+                                        <td><?php echo $valor['fecha_hora'];?></td>
+                                        <td><?php echo $valor['ip'];?></td>
+                                        <td><?php echo $valor['navegador'];?></td>
+                                        <td><?php echo $valor['sistema_operativo'];?></td>
+                                        <td><?php echo $valor['ubicacion'];?></td>
+                                        <td><?php echo $valor['nombre'];?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+    var opcion = "accesos";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

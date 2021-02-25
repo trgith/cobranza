@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="titulo">Notificaciones</h1>
+            <hr>
+            <?php if (isset($this->notificaciones)){
+                echo '<button type="button" class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top" title="Marcar todos como leídos" id="btnVerTodo"><i class="fa fa-street-view fa-2x"></i></button>';
+                foreach ($this->notificaciones as $clave => $valor):
+                $fecha1 = new DateTime(date("Y-m-d H:i:s"));
+                $fecha2 = new DateTime($valor['fecha_notificacion']);
+                $fecha = $fecha1->diff($fecha2);
+                if ($fecha->y != 0)
+                    $tiempo = "Hace ".$fecha->y." años";
+                if ($fecha->m !=0 && $fecha->y == 0)
+                    $tiempo = "Hace ".$fecha->m." meses";
+                if ($fecha->d != 0 && $fecha->m == 0 && $fecha->y == 0)
+                    $tiempo = "Hace ".$fecha->d." días";
+                if ($fecha->h != 0 && $fecha->d == 0 && $fecha->m == 0 && $fecha->y == 0)
+                    $tiempo = "Hace ".$fecha->h." horas";
+                if ($fecha->i !=0 && $fecha->h == 0 && $fecha->d == 0 && $fecha->m == 0 && $fecha->y == 0)
+                    $tiempo = "Hace ".$fecha->i." minutos";
+                ?>
+                <div class="card notificacion w-75">
+                    <div class="card-header">
+                        <i class="fas fa-bell" style="color: red"></i>
+                        <strong class="mr-auto">Notificación de pago</strong>
+                        <small class="float-right"><?= $tiempo ?></small>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Hola <?= $_SESSION['user'];?></h5>
+                        <p class="card-text"><?php echo $valor['descripcion'];?></p>
+                        <button type="button" class="btn btn-outline-dark btn-visto" id="<?php echo $valor['id_notificacion_pago'];?>"><i class="far fa-eye"></i></button>
+                    </div>
+                </div>
+            <?php endforeach; }else{?>
+                <div class="alert alert-warning" role="alert">
+                    No hay notificaciones actualmente.
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var opcion = "notify";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center titulo">Notas</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card registro-card">
+                <div class="card-body" id="cardRegistro">
+                    <h5 class="card-title">A continuación registre una nueva nota</h5>
+                    <form id="formNota" method="post">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="nota">
+                                    <span>*</span>Descripción:
+                                </label>
+                                <textarea class="form-control" rows="10" id="nota" name="nota" placeholder="Ingrese la descripción de la nota"  maxlength="800" onkeyup="count(this, 800);" required></textarea>
+                                <span id="count"><i>800</i> caracteres</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (isset($this->notas)){ ?>
+        <div class="row">
+            <div class="col">
+                <div class="card tablas">
+                    <div class="card-header">
+                        <i class="fas fa-sticky-note"></i>
+                        Notas
+                    </div>
+                    <div class="card-body">
+                        <form method="post" onclick="return false;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>No. Nota</th>
+                                        <th>Descripción</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $count =0; foreach ($this->notas as $clave => $valor): ?>
+                                        <tr id="<?php echo "edit_".$valor['id_nota']; ?>">
+                                            <td style="display: none">
+                                                <input type="text" class="form-control" id="id_nota" name="id_nota" value="<?php echo $valor['id_nota']; ?>" >
+                                            </td>
+                                            <td>
+                                                <span>Nota <?php echo  ++$count?></span>
+                                            </td>
+                                            <td>
+                                                <span class="text"><?php echo $valor['descripcion']; ?></span>
+                                                <textarea rows="10" class="form-control editBox" id="<?php echo 'descripcion_'.$valor['id_nota']; ?>" name="descripcion" placeholder="Nota" style="display: none"><?php echo $valor['descripcion']; ?></textarea>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btnEdit" id="<?php echo $valor['id_nota']; ?>"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-success btnSave" id="<?php echo $valor['id_nota']; ?>" style="display: none"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-danger btnDelet" id="<?php echo $valor['id_nota']; ?>" style="display: none"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="btn btn-dark btnCancel" id="<?php echo $valor['id_nota']; ?>" style="display: none"><i class="fas fa-times"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+    var opcion = "nota";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

@@ -1,0 +1,68 @@
+.titulo{
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.registro-card{
+	margin: 0 auto;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.125);
+}
+
+.pull-right{
+	float: right!important;
+}
+
+.requerido{
+	color: #F00;
+	font-size: 20px;
+}
+
+.form-row{
+	margin-bottom: 40px;
+}
+
+.alert-success-alt {
+	border-color: #19B99A;
+	background: #20A286;
+	color: #fff;
+}
+
+.alert-warning-alt {
+	border-color: #bbb81b;
+	background: #bfbe12;
+	color: #1d1d1d;
+}
+
+.alert-warning-alt{
+	border-color: #a1000d;
+	background: #bf281e;
+	color: #ffffff;
+}
+
+.alert{
+	margin: 40px 0;
+}
+
+.estado_acreditado{
+	background-color: #aee1a8;
+	color: white;
+}
+
+.estado_pendiente{
+	background-color: orange;
+	color: white;
+}
+
+.estado_aplazado{
+	background-color: #bf250d;
+	color: white;
+}
+
+.estado_parcial{
+	background-color: lightgray;
+	color: white;
+}
+.estado_proyecto{
+	color: white;
+	background-color: #DAA520;
+}

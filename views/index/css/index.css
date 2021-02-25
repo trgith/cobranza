@@ -1,0 +1,17 @@
+body{
+	background-image: url("../img/fondo.png");
+}
+
+.card{
+	margin: 15% auto;
+	width: 25rem;
+}
+
+#logoLogin{
+	width: 40%;
+	margin: 20px 0;
+}
+
+#captcha{
+	margin: 15px 0 15px 8%;
+}

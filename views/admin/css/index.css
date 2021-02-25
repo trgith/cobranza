@@ -1,0 +1,32 @@
+#seccionGen{
+    margin: 60px 0;
+}
+.tecnologia{
+    width: 50%;
+}
+.remarcado{
+    font-weight: bold;
+}
+.estado_acreditado{
+    background-color: #aee1a8;
+    color: white;
+}
+
+.estado_pendiente{
+    background-color: orange;
+    color: white;
+}
+
+.estado_aplazado{
+    background-color: red;
+    color: white;
+}
+
+.estado_parcial{
+    background-color: LightGray;
+    color: white;
+}
+#final{
+    background: #d8d0d0;
+    border-top: 2px solid #212529;
+}

@@ -1,0 +1,324 @@
+body{
+	/*background-image: url("../img/banner-simposio3.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -o-background-size: 100% 100%, auto;
+    -moz-background-size: 100% 100%, auto;
+    -webkit-background-size: 100% 100%, auto;
+    background-size: 100% 115%, auto;*/
+    background-color: #ecf0f5;
+}
+#cabecera{
+    height: 100px;
+    background-color: #3c8dbc!important;
+}
+#logo{
+    width: 160px;
+}
+.navbar-nav .nav-item .nav-link .badge{
+    position: absolute;
+    margin-left: 0!important;
+    left: 20px !important;
+    top: 0.3rem;
+    font-weight: 400;
+    font-size: 0.5rem;
+}
+.tablas{
+    margin: 70px 0;
+}
+/*** TABLAS ****/
+.table thead{
+    background-color: rgb(60, 141, 188);
+    color: white;
+}
+.table tbody{
+    background-color: rgb(236, 240, 245);
+}
+/* Configuración de datos de acceso en la cabecera de administrador*/
+.img-circulo{
+    width:70px;
+    height:70px;
+    border-radius:100px;
+    margin-right: 5px;
+}
+#nombre-admin{
+    float: left;
+    //margin-top: 50%;
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+#foto-admin{
+    margin-top: 35%;
+}
+
+.menuOpciones{
+    color: #909294!important;
+    background-color: #212529;
+}
+
+.dropdown-item:hover{
+    color: white!important;
+    background-color: #3e3b3b!important;
+}
+
+.dropdown-item{
+    color: #686e6c;
+}
+
+/* Se le da un margen por debajo para separarlo del footer */
+.container{
+    margin-bottom: 60px;
+}
+
+#notify{
+    font-size: 20px;
+}
+
+/*
+####################################################
+M E D I A  Q U E R I E S
+####################################################
+*/
+
+/*
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+Bootstrap 4 breakpoints
+*/
+/* Small devices (landscape phones, 544px and up) */
+@media (max-width: 544px) {
+    .card-body{
+        margin: 10px!important;
+        padding: 0!important;
+    }
+
+    .registro-card{
+        width: auto!important;
+    }
+
+    .row{
+        padding: 0!important;
+    }
+
+    .card{
+        width: 250px!important;
+        margin-left: 30px!important;
+        margin-top: 40px;
+    }
+
+    .titulo{
+        font-size: 5vw!important;
+    }
+
+    #infoUser{
+        font-size: .7em;
+        margin-left: 30px;
+    }
+    
+    .circulo{
+        margin-left: 30px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .class-name {font-size: 30px;}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .class-name {
+        font-size: 40px;
+    }
+
+    /* Extra large devices (large desktops, 1200px and up) */
+    @media (min-width: 1200px) {
+        .class-name {
+            font-size: 48px;
+        }
+    }
+
+}
+
+/***** Toasts(Notificzaciones) ****/
+.delete{
+    background-color: transparent;
+    border: none;
+}
+.message{
+    background-color:#ecf0f1;
+    border-radius:.4em;
+    font-size:1rem
+}
+.message:not(:last-child){
+    margin-bottom:1.5rem
+}
+.message.is-white{
+    background-color:#fff
+}
+.message.is-white .message-header{
+    background-color:#fff;color:#0a0a0a
+}
+.message.is-white .message-body{
+    border-color:#fff;color:#4d4d4d
+}
+.message.is-black{
+    background-color:#fafafa
+}
+.message.is-black .message-header{
+    background-color:#0a0a0a;color:#fff
+}
+.message.is-black .message-body{
+    border-color:#0a0a0a;color:#090909
+}
+.message.is-light{
+    background-color:#f9fafb
+}
+.message.is-light .message-header{
+    background-color:#ecf0f1;color:#363636
+}
+.message.is-light .message-body{
+    border-color:#ecf0f1;color:#505050
+}
+.message.is-dark{
+    background-color:#fafafa
+}
+.message.is-dark .message-header{
+    background-color:#363636;
+    color:#ecf0f1
+}
+.message.is-dark .message-body{
+    border-color:#363636;
+    color:#2a2a2a
+}
+.message.is-primary{
+    background-color:#f8fafb
+}
+.message.is-primary .message-header{
+    background-color:#34495e;
+    color:#fff
+}
+.message.is-primary .message-body{
+    border-color:#34495e;
+    color:#293746
+}
+.message.is-info{
+    background-color:#f6fbfd
+}
+.message.is-info .message-header{
+    background-color:#3498db;
+    color:#fff
+
+}
+.message.is-info .message-body{
+    border-color:#3498db;
+    color:#1e5478
+}
+.message.is-success{
+    background-color:#f7fdf9
+}
+.message.is-success .message-header{
+    background-color:#2ecc71;
+    color:#fff
+}
+.message.is-success .message-body{
+    border-color:#2ecc71;
+    color:#133622}
+.message.is-warning{
+    background-color:#fefcf5
+}
+.message.is-warning .message-header{
+    background-color:#f1b70e;
+    color:#fff
+}
+.message.is-warning .message-body{
+    border-color:#f1b70e;
+    color:#2b2107
+}
+.message.is-danger{
+    background-color:#fef7f6
+}
+.message.is-danger .message-header{
+    background-color:#e74c3c;
+    color:#fff
+}
+.message.is-danger .message-body{
+    border-color:#e74c3c;
+    color:#a82a1d
+}
+.message-header{
+    -webkit-box-align:center;
+    -ms-flex-align:center;
+    align-items:center;
+    background-color:#34495e;
+    border-radius:.4em .4em 0 0;
+    color:#fff;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-pack:justify;
+    -ms-flex-pack:justify;
+    justify-content:space-between;
+    line-height:1.25;
+    padding:.5em .75em;
+    position:relative
+}
+.message-header a,.message-header strong{
+    color:inherit
+}
+.message-header a{
+    text-decoration:underline
+}
+.message-header .delete{
+    -webkit-box-flex:0;
+    -ms-flex-positive:0;
+    flex-grow:0;
+    -ms-flex-negative:0;
+    flex-shrink:0;
+    margin-left:.75em
+}
+.message-header+.message-body{
+    border-top-left-radius:0;
+    border-top-right-radius:0;
+    border-top:none
+}
+.message-body{
+    border:1px solid #dee2e5;
+    border-radius:.4em;
+    color:#34495e;
+    padding:1em 1.25em
+}
+.message-body a,.message-body strong{
+    color:inherit
+}
+.message-body a{
+    text-decoration:underline
+}
+.message-body code,.message-body pre{
+    background:#fff
+}
+.message-body pre code{
+    background:transparent
+}
+
+#Toasts > ul {
+    position: absolute;
+    top: 120px;
+    right: 20px;
+    z-index: 10;
+}
+.toast-list-item {
+    transition: all 1s;
+    width: 340px;
+}
+.toast-list-enter,
+.toast-list-leave-to {
+    opacity: 0;
+    transform: translate(30px, 0);
+}
+.toast-list-move {
+    transition: transform 1s, opacity 1s;
+}
+.toast-list-leave-active {
+    position: absolute;
+}

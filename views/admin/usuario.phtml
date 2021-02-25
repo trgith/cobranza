@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center titulo">Registro de usuarios</h2>
+            <hr>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 80px;">
+        <div class="col">
+            <div class="card w-75 registro-card">
+                <div class="card-body">
+                    <h5 class="card-title">Ingrese los datos en el siguiente formulario</h5>
+                    <form id="formRegistro">
+                        <div class="form-group">
+                            <label for="nombre">
+                                <span class="requerido">*</span>Nombre
+                            </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <span class="requerido">*</span>E-mail
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el E-mail" required>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="telefono">
+                                    <span class="requerido">*</span>Teléfono Antiguo
+                                </label>
+                                <input type="tel" class="form-control" id="telefono_antiguo" name="telefono_antiguo" pattern="[0-9]{10}" placeholder="Ingrese el Num. de telefono" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="telefono">
+                                    Teléfono Nuevo
+                                </label>
+                                <input type="tel" class="form-control" id="telefono_nuevo" name="telefono_nuevo" pattern="[0-9]{10}" placeholder="Ingrese el Num. de telefono">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="generacion">
+                                <span class="requerido">*</span>Generación
+                            </label>
+                            <select class="form-control" id="generacion" name="generacion" required>
+                                <option value>Seleccione una opción</option>
+                                <?php for ($i = 0; $i < count($this->generaciones); $i++ ){ if ($this->generaciones[$i]['id_generacion'] != 1) {?>
+                                    <option value="<?php echo $this->generaciones[$i]['id_generacion']; ?>"><?php echo $this->generaciones[$i]['generacion']; ?>&nbsp;&nbsp;<?php echo $this->generaciones[$i]['tecnologia']?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nota">
+                                Nota
+                            </label>
+                            <textarea class="form-control" id="nota" name="nota" onkeyup="countChars(this);" placeholder="Ingrese una nota (opcional)" maxlength="150" rows="4" cols="50"></textarea>
+                            <p id="charNum">0 caracteres</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var opcion = "usuario";
+    var root = '<?php echo BASE_URL.$this->_controller.'/'; ?>';
+
+    function countChars(obj){
+        var maxLength = 150;
+        var strLength = obj.value.length;
+
+        if(strLength > maxLength){
+            document.getElementById("charNum").innerHTML = '<span style="color: red;">'+strLength+' de '+maxLength+' caracteres</span>';
+        }else{
+            document.getElementById("charNum").innerHTML = strLength+' de '+maxLength+' caracteres';
+        }
+    }
+</script>

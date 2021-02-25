@@ -1,0 +1,45 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: desarrollo2
+ * Date: 15/11/19
+ * Time: 16:49
+ */
+?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Ajustes <i class="fas fa-wrench"></i></h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="posicao circulo">
+                <span>
+                    <img src="<?php echo BASE_URL.'views/'.$this->_controller.'/img/perfil-default.jpg';?>" alt="imagem"/>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div id="infoUser">
+                <p>Nombre: <span class="info"><?php echo $_SESSION['user']?></span></p>
+                <p>Email: <span class="info"><?php echo $_SESSION['email']?></span></p>
+                <p>Telefono: <span class="info"><?php echo $_SESSION['telefono']?></span></p>
+                <button type="button" class="btn btn-outline-primary" id="btnChangePass">Cambiar contraseña</button>
+                <form type="post" style="margin-top: 20px; visibility: hidden;" id="formPass">
+                    <input class="form-control" type="text" placeholder="contraseña" name="id_usuario" value="<?php echo $_SESSION['id_usuario'];?>" style="display: none">
+                    <input class="form-control" type="password" placeholder="contraseña" name="pass" required>
+                    <button class="btn btn-outline-success" type="submit" style="margin-top: 20px;margin-bottom: 10px">Guardar <i class="fas fa-save"></i></button>
+                </form>
+            </div>
+            <button class="btn btn-outline-dark" id="bacupBD">
+                <i class="fas fa-database fa-3x" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var opcion = "settings";
+    var root = '<?php echo BASE_URL . $this->_controller . '/'; ?>';
+</script>

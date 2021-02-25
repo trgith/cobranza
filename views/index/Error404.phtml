@@ -1,0 +1,64 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Dani
+ * Date: 29/06/2019
+ * Time: 10:31 AM
+ */
+date_default_timezone_set('America/Mexico_city');
+$fecha = date("Y-m-d H:i:s");
+?>
+<div class="container" id="login" style="display: none">
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <img src="<?= BASE_URL.IMG_URL.'trnetwork.png' ?>" class="rounded mx-auto d-block" alt="TRNETWORK" id="logoLogin">
+                <div class="card-body">
+                    <form id="formLogin" method="post">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Correo electronico</label>
+                            <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp" placeholder="E-mail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contraseña</label>
+                            <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6LffE88UAAAAAEl2m_i-PtyBBP9ssshAm8cbxVOo" id="captcha" required></div>
+                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="not-found parallax" id="error-island">
+    <div class="sky-bg"></div>
+    <div class="wave-7"></div>
+    <div class="wave-6"></div>
+    <div class="wave-island" id="cero">
+        <img src="<?php echo BASE_URL."/views/index/img/island.svg";?>" alt="Island">
+    </div>
+    <div class="wave-5"></div>
+    <div class="wave-lost wrp">
+        <span>4</span>
+        <span>0</span>
+        <span>4</span>
+    </div>
+    <div class="wave-4"></div>
+    <div class="wave-boat">
+        <img class="boat" src="<?php echo BASE_URL."/views/index/img/boat.svg";?>" alt="Boat">
+    </div>
+    <div class="wave-3"></div>
+    <div class="wave-2"></div>
+    <div class="wave-1"></div>
+    <div class="wave-message">
+        <p>¡Estas perdido!</p>
+    </div>
+</div>
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+    var root = "<?php echo BASE_URL.$this->_controller.'/';?>";
+    var rootImage = "<?php echo BASE_URL.'views/'.$this->_controller.'/img/';?>";
+</script>
