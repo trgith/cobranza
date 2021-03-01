@@ -128,6 +128,7 @@ class adminController extends controller{
             }
             $fechas = $this->calcular_fechas($fechaIngreso,$semanas);
 
+
             /* Aqui realiza la regla de los 12 dias */
             $fecha1 = date_create($fechaIngreso);/* fecha de ingreso */
             $fecha2 = date_create($fechas[0]); /* siguiente quincena/inmediato */
@@ -591,9 +592,17 @@ class adminController extends controller{
     public function actualizarPagoUsuario(){
         if ($this->is_ajax()){
             if ($_POST['datosPago']){
+
+
                 $datos = json_decode($_POST['datosPago']);
                 $datosPago = get_object_vars($datos[0]);
+
+
                 if ($datosPago['id_pago'] != "0"){
+
+                    //print_r("entroooo");
+                    //print_r($this->_admin->actualizarPago($datosPago));
+
                     $result = $this->_admin->actualizarPago($datosPago);
                     if ($result == 1 ){ //modificado
                         $monto_pendiente = $this->_admin->getMontoPendiente($datosPago['id_informacion_pago']);
@@ -2290,8 +2299,7 @@ tr:nth-child(even) {
     public function generarRegestion(){
         if ($this->is_ajax()){
             #Obtenemos los pagos del usuario
-            $result = $this->_admin->corridas_existentes($_POST['usuario']);
-
+            $result = $this->_admin->corridas_existentes_regestion($_POST['usuario']);
             #Verificamos si hay pagos
             if ($result != 0){
                 #Calculamos las nuevas cantidades
@@ -2319,6 +2327,7 @@ tr:nth-child(even) {
                     }/*else
                         $pagos_pendientes++;*/
                 }
+
                 $pagos_pendientes = ($_POST['periodo'] == "Quincenal") ? 12 - $pagos_acreditados : 6 - $pagos_acreditados;
                 #Verificamos si la corrida anterior es del mismo periodo que la actál
                 if(count($result) >= 12 && $_POST['periodo'] == 'Mensual'){
@@ -2338,17 +2347,20 @@ tr:nth-child(even) {
                 $dias_trabajados = $this->dias_trabajados($_POST['fechaIngreso'],$periodo);
                 $semanas = $periodo;
                 if ($dias_trabajados < 4 && $_POST['periodo'] == 'Quincenal'){
-                    $semanas = 13;
                     $cantidad_dia = $cantidad / 15;
-                    $cantidad_dt = $dias_trabajados * $cantidad_dia;
-                    $cantidad_dt = number_format(round($cantidad_dt),2,'.',',');
+                    if($dias_trabajados != 0){
+                        $cantidad_dt = $dias_trabajados * $cantidad_dia;
+                        $cantidad_dt = number_format(round($cantidad_dt),2,'.',',');
+                    }else
+                        $cantidad_dt = number_format($cantidad,2,'.',',');
+                    $semanas = 13;
                     $cantidad_res = (15 - $dias_trabajados)* $cantidad_dia;
                     $cantidad_res = number_format(round($cantidad_res),2,'.',',');
                     $band = true;
                 }
 
                 //Aplicación de la regla de los días trabajados para (mensualidades)
-                if (($dias_trabajados < 19) && $_POST['periodo'] == 'Mensual'){
+                /*if (($dias_trabajados < 19) && $_POST['periodo'] == 'Mensual'){
                     $semanas = 7;
                     $cantidad_dia = $this->dias_mes;
                     $cantidad_dia = $this->sanitizarCantidad($cantidad) / $cantidad_dia;
@@ -2357,12 +2369,39 @@ tr:nth-child(even) {
                     $cantidad_res = ($this->dias_mes - $dias_trabajados)* $cantidad_dia;
                     $cantidad_res = number_format(round($cantidad_res),2,'.',',');
                     $band = true;
-                }
+                }*/
 
                 $fecha_ingreso = $_POST['fechaIngreso'];
                 #Generamos las nuevas fechas de pago
                 $fechas = $this->calcular_fechas($fecha_ingreso,$semanas);
+
                 $cont = 0;
+
+
+
+                /* Aqui realiza la regla de los 12 dias */
+                $fechaEnQueIngreso = date_create($fecha_ingreso);/* fecha de ingreso */
+                $fechaSiguienteQuincenaMes = date_create($fechas[0]); /* siguiente quincena/inmediato */
+                $diferencia = date_diff($fechaEnQueIngreso,$fechaSiguienteQuincenaMes);
+                $diferencia = $diferencia->format('%d');/* formato para obtener solo el numero de dias */
+
+
+                if(intval($diferencia) < 12 ){
+                    /*-- Entra en la siguiente quincena--*/
+                    array_shift($fechas);
+
+                    if(sizeof($fechas) == 11 OR sizeof($fechas) == 5){
+                        /* Y se anade otra quincena mas, puesto que quedo solo con 11 en la accion anterior */
+                        $ultimaFechadeArreglo = $fechas[sizeof($fechas) - 1]; /* se obtiene la ultima fecha del arreglo */
+                        $siguienteQuincenaoMes = $this->calcular_fechas($ultimaFechadeArreglo, $semanas);
+                        /*Se anade la primera fecha siguiente al array de fechas que ya tenemos */
+                        array_push($fechas, $siguienteQuincenaoMes[1]);
+                    }
+                }
+
+
+
+
                 foreach ($fechas as $fecha){
                     $fechas[$cont] = $this->convertirFecha($fecha);
                     $cont++;
@@ -2370,9 +2409,13 @@ tr:nth-child(even) {
                 #Tomamos solo las fechas de los pagos pendientes
                 $limite = ($band) ? $pagos_pendientes +1 : $pagos_pendientes;
                 $fechas = array_slice($fechas,0,$limite);
+
+
                 #Obtenemos el numero de pagos pendientes de la primera corrida
                 $cont = 0;
+
                 foreach ($fechas as $fecha) {
+
                     if ($band && $cont == 0){
                         $cantidad_tmp = $cantidad_dt;
                     } elseif ($band && $cont == count($fechas)-1)
@@ -2390,8 +2433,24 @@ tr:nth-child(even) {
                         "cantidad_pagada" => $cantidad_tmp
                     ]);
                     $cont++;
+
+
                 }
-                print_r(json_encode($corrida));
+
+                if(intval($dias_trabajados) === 0){
+                    $corridaFinal = array_slice($corrida,0,12);
+                }else{
+                    $corridaFinal = $corrida;
+                }
+
+                //print_r($corridaFinal);
+                //exit();
+
+                print_r(json_encode($corridaFinal));
+            }else{
+                $this->notificacion['tipo_mensaje'] = 'error';
+                $this->notificacion['mensaje'] = "No hay resultados de las corridas existentes";
+                print_r(json_encode($this->notificacion));
             }
         }
     }

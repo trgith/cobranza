@@ -108,14 +108,23 @@ $("#formCorrida").submit(function () {
                                 cancelButtonText: 'No'
                             }).then((result) => {
                                 if (result.value) {
-                                    guardarDatosCorrida();
                                     $.ajax({
                                         url: root+"generarRegestion",
                                         type: "POST",
                                         data: $("#formCorrida").serialize(),
                                         success: function (response) {
-                                            //console.log(response);
-                                            generarCorridaRegestion(response);
+                                            respuesta = JSON.parse(response);
+                                            if (respuesta.mensaje){
+                                                Swal.fire({
+                                                    type: respuesta.tipo_mensaje,
+                                                    title: '¡Aviso!',
+                                                    text: respuesta.mensaje
+                                                });
+                                            }else{
+                                                //console.log(response);
+                                                guardarDatosCorrida();
+                                                generarCorridaRegestion(response);
+                                            }
                                         }
                                     });
                                 }else{
@@ -408,7 +417,8 @@ $(document).on('click','.btnSave',function () {
                 $('#status_'+id+' .text').text($('input:radio[name=status'+id+']:checked').val());
                 $('#status_'+id).removeClass();
                 $('#status_'+id).addClass('estado_'+$('input:radio[name=status'+id+']:checked').val());
-            }else
+            }
+            else
                 $('#'+name+'_'+id+' .text').text($(this).val());
         });
         $('#edit_'+id+' .text').show();
@@ -540,6 +550,7 @@ function guardarDatosCorrida(){
                 title: '¡Aviso!',
                 text: respuesta.mensaje
             });
+
         },
         cache: false,
         processData: false
@@ -867,8 +878,8 @@ function generarCorridaRegestion(data) {
             '<input type="text" name="no_pago" class="form-control" value="'+cont+respuesta[key].pago+'" style="display: none; max-width: 90px;">' +
             '</td>' +
             '<td id="fecha_pago_'+cont+'">'+
-            '<span>'+respuesta[key].fecha+'</span>' +
-            '<input type="text" name="fecha_pago" class="form-control" value="'+respuesta[key].fecha+'" style="display: none; max-width: 90px;">' +
+            '<span class="text">'+respuesta[key].fecha+'</span>' +
+            '<input type="text" name="fecha_pago" class="editbox form-control" value="'+respuesta[key].fecha+'" style="display: none; max-width: 90px;">' +
             '</td>' +
             '<td id="cantidad_'+cont+'">' +
             '<span class="text cantidad">'+respuesta[key].cantidad+'</span>' +
@@ -949,7 +960,8 @@ function generarCorridaRegestion(data) {
         $('#cantidad_pagada_'+cont+' .text').text(cantidadPagoUltimo);
         $('#cantidad_pagada_'+cont+' input').val(cantidadPagoUltimo);
     }
-    $('tbody').append('<tr id="final"><td><strong>Total</strong></td><td id="valor_final" class="cantidad">'+total+'</td><td><strong>Total con descuento</strong></td><td id="total_descuento" class="cantidad"><span>'+calcularTotalConDescuentos()+'</span><input type="text" name="input_total_descuento" id="input_total_descuento" value="'+total+'" style="display: none;"></td><td></td><td id="diferencia"></td><td></td><td><strong>Restante</strong></td><td id="restante">'+calcularRestante()+'</td></tr>');
+    //<td id="diferencia"></td>
+    $('tbody').append('<tr id="final"><td></td><td><strong>Total</strong></td><td id="valor_final" class="cantidad">'+total+'</td><td></td><td></td><td></td><td><strong>Total con descuento</strong></td><td id="total_descuento" class="cantidad"><span>'+calcularTotalConDescuentos()+'</span><input type="text" name="input_total_descuento" id="input_total_descuento" value="'+total+'" style="display: none;"></td><td><strong>Restante</strong><br><span id="restante">'+calcularRestante()+'</span></td></tr>');
     //Deshabilitamos el boton Generar
     $('#btnGenerar').attr('disabled','disabled');
     //Hacemos scroll para ubicarnos en la tabla

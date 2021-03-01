@@ -567,7 +567,8 @@ $(document).on('click','.btnSave',function () {
     var datos = [];
     var temp = {};
     var count = 0;
-    var limite = (id_pago == '0')? 13 : 12;
+    //var limite = (id_pago == '0')? 13 : 12;
+    var limite = 13;
     var total = 0;
     var band = true;
     if ($('input:radio[name=status'+id+']:checked').val() == 'parcial'){
@@ -605,7 +606,12 @@ $(document).on('click','.btnSave',function () {
         if ($('#cantidad_'+id+' input').val() != 0){
             temp['cantidad'] = $('#cantidad_'+id+' input').val();
             $('#edit_'+id).find('input').each(function () {
+
                 var name = $(this).attr('name');
+                if(name == "fecha_pago"){
+                    temp['fecha_pago'] = $(this).val();
+
+                }
                 if (name === "descuento_porcentaje"){
                     if ($(this).val() == 0){
                         $('#descuento_cantidad_'+id+' .text').text(0);
@@ -632,7 +638,7 @@ $(document).on('click','.btnSave',function () {
                     }
                 }
                 //if (name == 'consultora')
-                    //  $('#consultora_'+id).text($(this).val()); //cambio
+                //  $('#consultora_'+id).text($(this).val()); //cambio
                 if (name == 'status'+id){
                     temp['status'] = $('input:radio[name=status'+id+']:checked').val();
                 } else temp[name] = $(this).val();
@@ -670,13 +676,13 @@ $(document).on('click','.btnSave',function () {
             $('#edit_'+id+' .btnSend').hide();
             var formData = new FormData();
             formData.append('datosPago', JSON.stringify(datos));
+
             $.ajax({
                 url: root + "actualizarPagoUsuario",
                 type: "POST",
                 data: formData,
                 contentType: false,
                 success: function (response) {
-                    //console.log(response);
                     respuesta = JSON.parse(response);
                     if (respuesta.tipo_mensaje == "success") {
                         Swal.fire({
@@ -697,6 +703,7 @@ $(document).on('click','.btnSave',function () {
                 cache: false,
                 processData: false
             });
+
             $('#status_'+id).removeClass();
             $('#status_'+id).addClass('estado_'+temp['status']);
             $('#status_'+id+' .text').text(temp['status']);
@@ -850,7 +857,7 @@ $('#generarParcial').click(function () {
                 title: 'Alerta',
                 text: "¡No hay pagos posteriores!"
             });
-    } 
+    }
     if (opcion == "nuevo"){
         $("#cantidad").val(numeral(diferencia).format('00,000.00'));
         $("#agregarPago").modal("show");
@@ -1231,8 +1238,9 @@ $(document).on('click','.btnVerCorrida',function () {
                     '<span>'+info[key].no_pago+'</span>' +
                     '<input type="text" id="consultora_'+cont+'" name="consultora" class="form-control consultora" value="'+info[key].consultora+'" style="display: none">'+
                     '</td>' +
-                    '<td id="fecha_'+cont+'" style="min-width: 110px;">' +
-                    '<span>'+info[key].fecha_pago+'</span>' +
+                    '<td id="fecha_pago_'+cont+'" style="min-width: 110px;">' +
+                    '<span class="text">'+info[key].fecha_pago+'</span>' +
+                    '<input type="text" name="fecha_pago" class="editbox form-control" value="'+info[key].fecha_pago+'" style="display: none; max-width: 120px;">' +
                     '</td>' +
                     '<td id="cantidad_'+cont+'" id_pago="'+info[key].id_pago+'">' +
                     '<span class="text cantidad">'+info[key].cantidad+'</span>' +
@@ -1437,14 +1445,14 @@ $(document).on('click','.btnPrint',function () {
                         pdfData = pdf.output('datauristring');
                         pdfData = pdfData.substring(pdfData.indexOf(',')+1);
                         urlData = appscheme + host + action +
-                        query_success + '=' + encodeURIComponent(success) + '&' +
-                        query_ver + '=' + ver + '&' +
-                        query_datatype + '=' + datatype + '&' +
-                        query_data + '=' + encodeURIComponent(pdfData) + '&' +
-                        query_reselect + '=' + reselect + '&' +
-                        query_cut + '=' + cut + '&' +
-                        query_fittowidth + '=' + fittowidth + '&' +
-                        query_paperwidth + '=' + paperwidth;
+                            query_success + '=' + encodeURIComponent(success) + '&' +
+                            query_ver + '=' + ver + '&' +
+                            query_datatype + '=' + datatype + '&' +
+                            query_data + '=' + encodeURIComponent(pdfData) + '&' +
+                            query_reselect + '=' + reselect + '&' +
+                            query_cut + '=' + cut + '&' +
+                            query_fittowidth + '=' + fittowidth + '&' +
+                            query_paperwidth + '=' + paperwidth;
                         location.href = urlData;
                     }
                 }

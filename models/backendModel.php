@@ -216,6 +216,7 @@ class backendModel extends Model{
             "cantidad" => $data['cantidad'],
             "status" => $data['status'],
             "forma_pago" => $data['forma_pago'],
+            "fecha_pago" => $data['fecha_pago'],
             "descuento_porcentaje" => $data['descuento_porcentaje'],
             "descuento_cantidad" => $data['descuento_cantidad'],
         ];
@@ -360,6 +361,20 @@ ip.monto_pagar, ip.monto_pendiente, ip.consultora, ip.cliente, ip.fecha_ingreso,
         }else return 0;
     }
 
+    public function corridas_existentes_regestion($id_usuario){
+        $query = "SELECT p.*
+                  FROM pago p 
+                  INNER JOIN informacion_pago ip ON p.id_informacion_pago = ip.id_informacion_pago
+                  WHERE p.id_informacion_pago = (SELECT ip.id_informacion_pago
+                  FROM usuario u
+                  INNER JOIN informacion_pago ip ON u.id_usuario = ip.id_usuario
+                  WHERE u.id_usuario = ". $id_usuario ." ORDER BY ip.id_informacion_pago DESC LIMIT 1);";
+        $result = $this->_db->run($query);
+        if (!empty($result)){
+            return $result;
+        }else return 0;
+    }
+
     public function actualizarMonto($data){
         $bind = [":id_info_pago" => $data['id_informacion_pago']];
         $table = "informacion_pago";
@@ -432,6 +447,7 @@ ip.monto_pagar, ip.monto_pendiente, ip.consultora, ip.cliente, ip.fecha_ingreso,
         $result = $this->_db->update($table, $info, $where,$bind);
         return $result;
     }
+
     public function actualizarMontoPercibir($data){
         $bind = [":id_info_pago" => $data['id_informacion_pago']];
         $table = "informacion_pago";
@@ -440,6 +456,7 @@ ip.monto_pagar, ip.monto_pendiente, ip.consultora, ip.cliente, ip.fecha_ingreso,
         $result = $this->_db->update($table, $info, $where,$bind);
         return $result;
     }
+
     public function obtenerUsuario($data){
         $query = "SELECT id_usuario, email_usuario, nombre, nota, status, generacion, tecnologia
                   FROM usuario u
