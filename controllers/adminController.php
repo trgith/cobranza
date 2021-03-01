@@ -105,7 +105,7 @@ class adminController extends controller{
             $dias_trabajados = $this->dias_trabajados($fechaIngreso,$semanas);
             $band = false;
             //Aplicación de la regla de los días trabajados para (quincenas)
-            if (($dias_trabajados < 4) && $_POST['periodo'] == 'Quincenal'){
+            /*if (($dias_trabajados < 4) && $_POST['periodo'] == 'Quincenal'){
                 $semanas = 13;
                 $cantidad_dia = 15;
                 $cantidad_dia = $this->sanitizarCantidad($cantidad) / $cantidad_dia;
@@ -114,9 +114,9 @@ class adminController extends controller{
                 $cantidad_res = (15 - $dias_trabajados)* $cantidad_dia;
                 $cantidad_res = number_format(round($cantidad_res),2,'.',',');
                 $band = true;
-            }
+            }*/
             //Aplicación de la regla de los días trabajados para (mensualidades)
-            if (($dias_trabajados < 19) && $_POST['periodo'] == 'Mensual'){
+            /*if (($dias_trabajados < 19) && $_POST['periodo'] == 'Mensual'){
                 $semanas = 7;
                 $cantidad_dia = $this->dias_mes;
                 $cantidad_dia = $this->sanitizarCantidad($cantidad) / $cantidad_dia;
@@ -125,7 +125,7 @@ class adminController extends controller{
                 $cantidad_res = ($this->dias_mes - $dias_trabajados)* $cantidad_dia;
                 $cantidad_res = number_format(round($cantidad_res),2,'.',',');
                 $band = true;
-            }
+            }*/
             $fechas = $this->calcular_fechas($fechaIngreso,$semanas);
 
 
@@ -964,8 +964,15 @@ class adminController extends controller{
         $infoCliente = $this->_admin->getInfoPagoRecibo($_GET['id_pago']);
         $numPago = substr($infoCliente['no_pago'], 0,2);
         $numPago =  intval($numPago);
+        /* Contamos los pagos pendientes */
+        $contador = 0;
+        foreach ($pagos as $pago){
+            if ($pago['status'] == 'pendiente')
+                $contador++;
+        }
         $totalPagos = $this->_admin->contarPagos($_GET['id_info']);
-        $pagosRestantes = intval($totalPagos['num_pagos']) - intval($numPago);
+        //$pagosRestantes = intval($totalPagos['num_pagos']) - intval($numPago);
+        $pagosRestantes = $contador;
         $cliente = $infoCliente['nombre'];
         $arrayNombre = explode(" ", $cliente);
         $iniciales = "";
