@@ -591,4 +591,23 @@ ip.monto_pagar, ip.monto_pendiente, ip.consultora, ip.cliente, ip.fecha_ingreso,
             return $result;
         }else return 0;
     }
+
+    public function registrarReporte($data){
+        $fields = ["nombre" => $data['nombre'], "fecha" =>$data['fecha'], "id_info_pago" => $data['id_info_pago']];
+        $table = "reportes_corrida";
+        $where = ["1" => "1"];
+        $result = $this->_db->insert($table,$fields,$where);
+        return $result;
+    }
+
+    public function buscarReportesCorrida($data){
+        $bind = [":id_info" => $data];
+        $fields = "*";
+        $table = "reportes_corrida";
+        $where = ['id_info_pago' => ':id_info'];
+        $result = $this->_db->select($table,$fields,$where,$bind);
+        if (!empty($result)){
+            return $result;
+        }else return null;
+    }
 }

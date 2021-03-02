@@ -17,6 +17,8 @@ class adminController extends controller{
         #Se carga el modelo
         $this->_admin = $this->loadModel('backend');
         setlocale(LC_MONETARY, 'en_US');
+        #apuntamos a la fecha local
+        date_default_timezone_set("America/Mexico_City");
         if(!isset($_SESSION))
         {
             session_start();
@@ -1281,45 +1283,89 @@ EOD;
         return $format;
     }
 
-    public  function verReporteCorrida(){
+    public function crearReporteCorrida(){
+        $fecha_actual = new DateTime("now");
+        $fecha_actual1 = date_format($fecha_actual,"Y-m-d-H-i-s");
+        $fecha_actual2 = date_format($fecha_actual,"Y-m-d H:i:s");
         $id_usuario = $this->_admin->retornaInfoPago($_GET['id_info']);
         $id_usuario = $id_usuario['id_usuario'];
-        $nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/Reporte Corrida de Pagos'.$_GET['id_info'].'.pdf';
+        $nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/Reporte-Corrida-Pagos-'.$_GET['id_info'].'-'.$fecha_actual1.'.pdf';
+        $reporteInfo = [
+            "nombre" => "Reporte-Corrida-Pagos-".$_GET['id_info'].'-'.$fecha_actual1.'.pdf',
+            "fecha" => $fecha_actual2,
+            "id_info_pago" => $_GET['id_info']
+        ];
         if (!file_exists($nombre_fichero)) {
             $pdf = $this->generarPdfCorrida();
             $pdf->Output($nombre_fichero, 'F');
+            /* Se registra el reporte en la BD */
+            $resultado = $this->_admin->registrarReporte($reporteInfo);
+            if (!$resultado){
+                echo "Error: No se pudo guardar el reporte!!";
+            }
         }
-        $respuesta = BASE_URL."files/usuario_".$id_usuario."/Reporte Corrida de Pagos".$_GET['id_info'].'.pdf';
+        $respuesta = BASE_URL."files/usuario_".$id_usuario."/Reporte-Corrida-Pagos-".$_GET['id_info'].'-'.$fecha_actual1.'.pdf';
         print_r($respuesta);
     }
 
-    public function enviarReporteCorrida(){
-        $pagos = $this->_admin->getInformacionCorrida($_GET['id_info']);
-        $infoCliente = $this->_admin->getInfoPagoRecibo($pagos[0]['id_pago']);
-        $this->getLibrary("tcpdf/tcpdf");
-        $this->getLibrary("PHPMailer/Mailer");
-        #$pdf = $this->generarPdfCorrida();
-        //Close and output PDF document
-        $rutaReporteCorrida = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/Reporte Corrida de Pagos'.$_GET['id_info'].'.pdf';
-        $rutaPresentacion = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/Presentacion.pdf';
-        $pdf = $this->generarPresentacion($infoCliente);
-        $pdf->Output($rutaPresentacion, 'F');
-        if (file_exists($rutaReporteCorrida) && file_exists($rutaPresentacion)){
-            #Se envia por correo
-            $info = [
-                "email_usuario" => $infoCliente['email_usuario'],
-                "nombre_usuario" => $infoCliente['nombre'],
-                "ruta_presentacion" => $rutaPresentacion,
-                "ruta_reporte" => $rutaReporteCorrida
-            ];
-            $mail = new Mailer();
-            $respuestaMail = $mail->enviar_reporte_corrida($info);
-            if ($respuestaMail)
-                echo "Reporte enviado satisfactoreamente";
-            else
-                echo "Error: No se pudo enviar el reporte!!";
+    public  function verReporteCorrida(){
+        $resultado = $this->_admin->buscarReportesCorrida($_GET['id_info']);
+        $id_usuario = $this->_admin->retornaInfoPago($_GET['id_info']);
+        $id_usuario = $id_usuario['id_usuario'];
+        if (!is_null($resultado)){
+            $reporte = $resultado[0];
+            $nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/'.$reporte['nombre'];
+            if (file_exists($nombre_fichero)) {
+                $respuesta = BASE_URL."files/usuario_".$id_usuario."/".$reporte['nombre'];
+                print_r($respuesta);
+            }else
+                echo "Error: El archivo no existe!!";
+        }else
+            echo "Error: No hubo resultados";
+    }
+
+    public function obtenerReportesCorrida(){
+        $resultado = $this->_admin->buscarReportesCorrida($_POST['id_info_pago']);
+        if (!is_null($resultado)){
+            print_r(json_encode($resultado));
         }else{
-            echo "Error: ¡No ha generado el Recibo!";
+            $this->notificacion['tipo_mensaje'] = 'Error';
+            $this->notificacion['mensaje'] = "¡No se encontraron resultados!";
+            print_r(json_encode($this->notificacion));
+        }
+    }
+
+    public function enviarReporteCorrida(){
+        $resultado = $this->_admin->buscarReportesCorrida($_GET['id_info']);
+        if (!is_null($resultado)){
+            $reporte = $resultado[0];
+            $pagos = $this->_admin->getInformacionCorrida($_GET['id_info']);
+            $infoCliente = $this->_admin->getInfoPagoRecibo($pagos[0]['id_pago']);
+            $this->getLibrary("tcpdf/tcpdf");
+            $this->getLibrary("PHPMailer/Mailer");
+            #$pdf = $this->generarPdfCorrida();
+            //Close and output PDF document
+            $rutaReporteCorrida = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/'.$reporte['nombre'];
+            $rutaPresentacion = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/Presentacion.pdf';
+            $pdf = $this->generarPresentacion($infoCliente);
+            $pdf->Output($rutaPresentacion, 'F');
+            if (file_exists($rutaReporteCorrida) && file_exists($rutaPresentacion)){
+                #Se envia por correo
+                $info = [
+                    "email_usuario" => $infoCliente['email_usuario'],
+                    "nombre_usuario" => $infoCliente['nombre'],
+                    "ruta_presentacion" => $rutaPresentacion,
+                    "ruta_reporte" => $rutaReporteCorrida
+                ];
+                $mail = new Mailer();
+                $respuestaMail = $mail->enviar_reporte_corrida($info);
+                if ($respuestaMail)
+                    echo "Reporte enviado satisfactoreamente";
+                else
+                    echo "Error: No se pudo enviar el reporte!!";
+            }else{
+                echo "Error: ¡No ha generado el Recibo!";
+            }
         }
     }
 
@@ -2111,25 +2157,30 @@ EOD;
     }
 
     public  function verReporteCorridaRegestion(){
+        $fecha_actual = new DateTime("now");
+        $fecha_actual = date_format($fecha_actual,"Y-m-d-H-i");
         $id_usuario = $this->_admin->retornaInfoPago($_GET['id_info']);
         $id_usuario = $id_usuario['id_usuario'];
-        $nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/Reporte Corrida de Pagos(regestion)'.$_GET['id_info'].'.pdf';
+        //$nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/Reporte Corrida de Pagos(regestion)'.$_GET['id_info'].'.pdf';
+        $nombre_fichero = ROOT.'files/usuario_'.$id_usuario.'/Reporte-Corrida-Pagos-'.$_GET['id_info'].'-'.$fecha_actual.'.pdf';
         if (!file_exists($nombre_fichero)) {
             $pdf = $this->generarPdfCorrida();
             $pdf->Output($nombre_fichero, 'F');
         }
-        $respuesta = BASE_URL."files/usuario_".$id_usuario."/Reporte Corrida de Pagos(regestion)".$_GET['id_info'].'.pdf';
+        $respuesta = BASE_URL."files/usuario_".$id_usuario."/Reporte-Corrida-Pagos-".$_GET['id_info'].'-'.$fecha_actual.'.pdf';
         print_r($respuesta);
     }
 
     public function enviarReporteCorridaRegestion(){
+        $fecha_actual = new DateTime("now");
+        $fecha_actual = date_format($fecha_actual,"Y-m-d-H-i");
         $pagos = $this->_admin->getInformacionCorrida($_GET['id_info']);
         $infoCliente = $this->_admin->getInfoPagoRecibo($pagos[0]['id_pago']);
         $this->getLibrary("tcpdf/tcpdf");
         $this->getLibrary("PHPMailer/Mailer");
         $pdf = $this->generarPdfCorrida();
         //Close and output PDF document
-        $rutaReporteCorrida = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/Reporte Corrida de Pagos(regestion)'.$_GET['id_info'].'.pdf';
+        $rutaReporteCorrida = ROOT.'files/usuario_'.$infoCliente['id_usuario'].'/Reporte-Corrida-Pagos-'.$_GET['id_info'].'-'.$fecha_actual.'.pdf';
         $pdf->Output($rutaReporteCorrida, 'F');
         #Se envia por correo
         $info = [

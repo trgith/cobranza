@@ -1500,8 +1500,51 @@ function enviarMail(id_pago, id_info_pago) {
 }
 
 function verReporteCorrida(id_usuario, id_info_pago) {
-    window.open(files_root+"usuario_"+id_usuario+"/Reporte Corrida de Pagos"+id_info_pago+".pdf","_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=800,height=600");
+    var formData = new FormData();
+    formData.append('id_info_pago', id_info_pago);
+    $.ajax({
+        url: root + "obtenerReportesCorrida",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        success: function (response) {
+            respuesta = JSON.parse(response);
+            if (respuesta.tipo_mensaje){
+                Swal.fire({
+                    type: respuesta.tipo_mensaje,
+                    title: '¡Aviso!',
+                    text: respuesta.mensaje
+                });
+            }else{
+                if (respuesta.length > 1){
+                    $('#tablaCorridas tbody').empty();
+                    for(var i = 0; i < respuesta.length; i++){
+                        var datos = [id_usuario, respuesta[i].nombre];
+                        $('#tablaCorridas tbody').append("<tr>" +
+                                                            "<td>" + (i + 1) + "</td>" +
+                                                            "<td>" + respuesta[i].nombre + "</td>" +
+                                                            "<td>" + respuesta[i].fecha + "</td>" +
+                                                           "<td><button class='btn btn-primary verReporteCorrida' id_usuario='"+id_usuario+"' nombre_archivo='"+respuesta[i].nombre+"'><i class='fa fa-eye'></i></button></td>" +
+                                                        "</tr>");
+                    }
+                    $('#modalTablaReportes').modal('show');
+                }else
+                    window.open(files_root+"usuario_"+id_usuario+"/"+respuesta[0].nombre,"_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=800,height=600");
+            }
+        },
+        cache: false,
+        processData: false
+    });
+    //
 }
+
+/* Funcion para mostrar el reporte desde la tabla de modal */
+$(document).on('click','.verReporteCorrida',function () {
+    window.open(files_root+"usuario_" + $(this).attr('id_usuario') + "/" + $(this).attr('nombre_archivo'),"_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=800,height=600");
+});
+
+
+
 
 //evento para ver el reporte  de corrida
 $('#verReporte').click(function () {

@@ -293,10 +293,18 @@ $('#verReporte').click(function () {
 //evento que genera el pdf de una corrida de pago
 function generarCorridaPagoPdf(idCorridaPago){
     var req = new XMLHttpRequest();
-    req.open('GET', root+"verReporteCorrida&id_info="+idCorridaPago, false);
+    req.open('GET', root+"crearReporteCorrida&id_info="+idCorridaPago, false);
     req.send(null);
-    if (req.status == 200)
+    if (req.status == 200){
         console.log("Reporte de corrida generado exitosamente");
+        if (req.responseText.substr(0,5) == 'Error')
+            Swal.fire({
+                type: 'error',
+                title: req.responseText,
+                showConfirmButton: false,
+                timer: 1500
+            });
+    }
 }
 
 //Evento que envia el reporte de la corrida por correo

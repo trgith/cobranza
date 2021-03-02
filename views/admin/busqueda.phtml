@@ -363,6 +363,34 @@
         </div>
     </div>
 </div>
+<!-- Modal que muestra los reportes de corrida -->
+<div class="modal fade bd-example-modal-lg" id="modalTablaReportes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reporte de corridas de pago</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <table class="table table-bordered" id="tablaCorridas">
+                    <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Reporte</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     var opcion = "busqueda";
     var files_root = '<?php echo BASE_URL."files/" ?>';
